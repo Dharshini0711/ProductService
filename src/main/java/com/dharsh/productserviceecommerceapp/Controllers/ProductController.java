@@ -6,6 +6,8 @@ import com.dharsh.productserviceecommerceapp.Exceptions.ProductNotFoundException
 import com.dharsh.productserviceecommerceapp.Models.Product;
 import com.dharsh.productserviceecommerceapp.Services.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.batch.BatchTransactionManager;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,12 @@ public class ProductController {
     @GetMapping("/products")
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
+    }
+
+    @GetMapping("products/paginated/")
+    public List<Product>getAllProductsPaginated(@RequestParam("pageNo") int pageNo, @RequestParam("pageSize") int pageSize ) {
+        Page<Product> productPage=  productService.getAllProductsPaginated(pageNo, pageSize);
+        return productPage.getContent();
     }
 
     @GetMapping("/product/{id}")
@@ -46,13 +54,5 @@ public class ProductController {
                 createProductDto.getImage(), createProductDto.getCategory());
     }
 
-    /*@ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<ErrorDto> HandleProductNotFoundException(ProductNotFoundException productNotFoundException) {
-        ErrorDto errorDto = new ErrorDto();
-        errorDto.setMessage(productNotFoundException.getMessage());
 
-        ResponseEntity<ErrorDto> responseEntity = new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
-        return responseEntity;
-
-    }*/
 }

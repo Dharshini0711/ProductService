@@ -4,6 +4,7 @@ import com.dharsh.productserviceecommerceapp.Dtos.CreateProductDto;
 import com.dharsh.productserviceecommerceapp.Dtos.FakeStoreProductDto;
 import com.dharsh.productserviceecommerceapp.Exceptions.ProductNotFoundException;
 import com.dharsh.productserviceecommerceapp.Models.Product;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -59,5 +60,10 @@ public class FakeStoreProductService implements ProductService{
 
         FakeStoreProductDto fakeStoreProductDto1 = restTemplate.postForObject("https://fakestoreapi.com/products", fakeStoreProductDto, FakeStoreProductDto.class);
         return fakeStoreProductDto1.toProduct();
+    }
+
+    @Override
+    public Page<Product> getAllProductsPaginated(int page, int size) {
+        return null;
     }
 }
